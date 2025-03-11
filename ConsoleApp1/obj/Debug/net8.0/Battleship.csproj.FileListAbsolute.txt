@@ -12,3 +12,4 @@ D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\refint\Battleship.dll
 D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\Battleship.pdb
 D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\Battleship.genruntimeconfig.cache
 D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\ref\Battleship.dll
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\Battleship.sourcelink.json

@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleship
 {
     internal class Player
     {
+        private Grid grid;
+        private Random rand;
+
+        public Player()
+        {
+            grid = new Grid();
+            rand = new Random();
+            //PlaceShips();
+        }
     }
 }
