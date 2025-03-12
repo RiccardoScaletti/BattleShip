@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\COSE\\GameDev\\BattleShip\\ConsoleApp1\\Battleship.csproj",
-      "projectName": "Battleship",
-      "projectPath": "D:\\COSE\\GameDev\\BattleShip\\ConsoleApp1\\Battleship.csproj",
+      "projectUniqueName": "D:\\COSE\\GameDev\\BattleShip\\ConsoleApp1\\BattleshipScaletti.csproj",
+      "projectName": "BattleshipScaletti",
+      "projectPath": "D:\\COSE\\GameDev\\BattleShip\\ConsoleApp1\\BattleshipScaletti.csproj",
       "packagesPath": "C:\\Users\\ricca\\.nuget\\packages\\",
       "outputPath": "D:\\COSE\\GameDev\\BattleShip\\ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",

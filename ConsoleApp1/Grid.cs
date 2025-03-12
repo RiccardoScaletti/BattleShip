@@ -8,13 +8,17 @@ namespace Battleship
 {
     enum Directions
     {
+        None,
         Horizontal,
         Vertical
     }
     internal class Grid
     {
-        char[][] board;
+        
+        public char[][] board;
         public List<Ship> Ships;
+        
+        public bool shipPlaced = false;
 
         public Grid()
         {
@@ -51,27 +55,26 @@ namespace Battleship
                     }
 
                     char displayChar = board[i][j];
-                    if (hideShips)
+                    if (hideShips && displayChar == 'S')
                     {
                         displayChar = '~';
                     }
 
                     //color manager
-                    if (displayChar == '~')
+                    switch (displayChar)
                     {
-                        Console.ForegroundColor = ConsoleColor.Blue; 
-                    }
-                    else if (displayChar == 'S')
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else if (displayChar == 'X')
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red; 
-                    }
-                    else if (displayChar == 'O')
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            break;
+                        case 'S':
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            break;
+                        case 'X':
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            break;
+                        case 'O':
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            break;
                     }
                     Console.Write(displayChar + " ");
                 }
@@ -82,32 +85,41 @@ namespace Battleship
 
         public void PlaceShip(Ship ship, int x, int y, Directions dir)
         {
-            bool placed = false;
             List<(int, int)> tempCoordinates = new List<(int, int)>();
-            while (!placed) 
+            while (!shipPlaced) 
             {
+                if ((dir == Directions.Vertical && x + ship.Length > 10) || (dir == Directions.Horizontal && y + ship.Length > 10))
+                {
+                    Console.WriteLine("Ship does not fit in the given direction.\n");
+                    return;
+                }
+
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    if (dir == Directions.Vertical)
+                    if (board[x][y] == 'S')
                     {
-                        x += 1;
-                    }
-                    else if (dir == Directions.Horizontal)
-                    {
-                        y += 1;
-                    }
-                    if (x >= 10 || y >= 10 || board[x][y] != '~')
-                    {
-                        Console.WriteLine("Impossible to place Ship at given coordinates, check again...");
+                        Console.WriteLine("Ship overlaps with another ship.\n");
                         return;
                     }
 
                     tempCoordinates.Add((x, y));
-                    foreach (var coord in tempCoordinates)
+
+                    if (dir == Directions.Vertical)
                     {
-                        board[coord.Item1][coord.Item2] = 'S';
+                        x++;
+                    }
+                    else if (dir == Directions.Horizontal)
+                    {
+                        y++;
                     }
                 }
+                foreach (var coord in tempCoordinates)
+                {
+                    board[coord.Item1][coord.Item2] = 'S';
+                }
+                ship.ShipPosition.AddRange(tempCoordinates);
+                Ships.Add(ship);
+                shipPlaced = true;
             }
         }
 

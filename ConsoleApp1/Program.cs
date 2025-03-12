@@ -5,15 +5,18 @@ namespace Battleship
 {
     internal class Program
     {
-        static bool aiOn = false;
+        static bool aiOn = true;
         static bool stop = false;
         static string? playerModeInput;
 
-        static string inputX;
+        static string? inputX;
         static int inputXInt;
-        static string inputY;
+        static string? inputY;
         static int inputYInt;
-        static string inputShipName;
+        static string? inputShipDirection;
+        static Random random = new Random();
+
+        static int shots = 0;
 
         static void Main(string[] args)
         {
@@ -23,6 +26,9 @@ namespace Battleship
 
             Grid aiGrid = new Grid();
             Grid playerGrid = new Grid();
+            Player player = new Player(playerGrid);
+            Player ai = new Player(aiGrid);
+
             //do
             //{
             //    Console.WriteLine("do You want to play against AI or Player? \n A = Ai, P = player");
@@ -42,40 +48,48 @@ namespace Battleship
             //        Console.WriteLine("Wrong input, try again...\n");
             //    }
             //}while(!stop);
+
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("\tAI's Board:");
                 aiGrid.DisplayBoard(false);
+                ai.AddShip(aiGrid, true);
 
                 Console.WriteLine("\tPlayer Board:");
                 playerGrid.DisplayBoard(false);
-                Console.WriteLine("Let's place ships!\n");
-                Console.WriteLine("inter name of the ship\n");
-                inputShipName = Console.ReadLine();
-                Console.WriteLine("inter x\n");
-                inputX = Console.ReadLine();
-                inputXInt = int.Parse(inputX);
-                Console.WriteLine("inser y\n");
-                inputY = Console.ReadLine();
-                inputYInt = int.Parse(inputY);
-                //player.Attack(aiGrid);
+                ai.AddShip(playerGrid, false);
 
-                //shots++;
+                //attack management
+                player.Attack(aiGrid, false);
+                player.shotsFired++;
                 if (aiGrid.CheckWin())
                 {
-                    //Console.WriteLine("You win in " + shots + " shots!");
                     break;
                 }
-                //ai.Attack(playerGrid);
+
+                ai.Attack(playerGrid, true);
+                ai.shotsFired++;
                 if (playerGrid.CheckWin())
                 {
-                    Console.WriteLine("AI wins!");
                     break;
                 }
             }
+            //Endgame diplay
+            Console.Clear();
+            Console.WriteLine("\tAI's Board:");
+            aiGrid.DisplayBoard(false);
 
-
+            Console.WriteLine("\tPlayer Board:");
+            playerGrid.DisplayBoard(false);
+            if (aiGrid.CheckWin())
+            {
+                Console.WriteLine("You win in " + player.shotsFired + " shots!");
+            }
+            if (playerGrid.CheckWin())
+            {
+                Console.WriteLine("AI wins in " + ai.shotsFired + " shots!");
+            }
         }
     }
 }

@@ -1,0 +1,15 @@
+D:\COSE\GameDev\BattleShip\ConsoleApp1\bin\Debug\net8.0\BattleshipScaletti.exe
+D:\COSE\GameDev\BattleShip\ConsoleApp1\bin\Debug\net8.0\BattleshipScaletti.deps.json
+D:\COSE\GameDev\BattleShip\ConsoleApp1\bin\Debug\net8.0\BattleshipScaletti.runtimeconfig.json
+D:\COSE\GameDev\BattleShip\ConsoleApp1\bin\Debug\net8.0\BattleshipScaletti.dll
+D:\COSE\GameDev\BattleShip\ConsoleApp1\bin\Debug\net8.0\BattleshipScaletti.pdb
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.GeneratedMSBuildEditorConfig.editorconfig
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.AssemblyInfoInputs.cache
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.AssemblyInfo.cs
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.csproj.CoreCompileInputs.cache
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.sourcelink.json
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.dll
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\refint\BattleshipScaletti.dll
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.pdb
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\BattleshipScaletti.genruntimeconfig.cache
+D:\COSE\GameDev\BattleShip\ConsoleApp1\obj\Debug\net8.0\ref\BattleshipScaletti.dll
