@@ -14,7 +14,7 @@ namespace Battleship
     }
     internal class Grid
     {
-        
+
         public char[][] board;
         public List<Ship> Ships;
         public bool shipPlaced = false;
@@ -36,7 +36,7 @@ namespace Battleship
                 }
             }
         }
-       
+
         public void DisplayBoard(bool hideShips)
         {
             string startLetter = "ABCDEFGHIJ";
@@ -82,17 +82,20 @@ namespace Battleship
             }
         }
 
-        public void PlaceShip(Ship ship, int x, int y, Directions dir)
+        public void PlaceShip(Ship ship, int x, int y, Directions dir, bool ai)
         {
             shipPlaced = false;
             List<(int, int)> tempCoordinates = new List<(int, int)>();
             bool stop = false;
 
-            while (!shipPlaced) 
+            while (!shipPlaced)
             {
                 if ((dir == Directions.Vertical && x + ship.Length > 10) || (dir == Directions.Horizontal && y + ship.Length > 10))
                 {
-                    Console.WriteLine("Ship does not fit in the given direction.\n");
+                    if (!ai)
+                    {
+                        Console.WriteLine("Ship does not fit in the given direction.\n");
+                    }
                     return;
                 }
 
@@ -103,12 +106,17 @@ namespace Battleship
                         stop = true;
                         return;
                     }
+
                     if (board[x][y] == 'S')
                     {
-                        Console.WriteLine("Ship overlaps with another ship.\n");
+                        if (!ai)
+                        {
+                            Console.WriteLine("Ship overlaps with another ship.\n");
+                        }
                         stop = true;
                         return;
                     }
+
                     tempCoordinates.Add((x, y));
 
                     if (dir == Directions.Vertical)

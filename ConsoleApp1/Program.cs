@@ -21,6 +21,7 @@ namespace Battleship
 
         static void Main(string[] args)
         {
+            Console.WriteLine("   ___    _  ____________  ___  ___  _ _______ \r\n  / o.) .' \\/_  _/_  _/ / / _/,' _/ /// / / o |\r\n / o \\ / o / / /  / // /_/ _/_\\ `. / ` / / _,' \r\n/___,'/_n_/ /_/  /_//___/___/___,'/_n_/_/_/    ");
             while (!enterPressed)
             {
                 Console.WriteLine("Press Enter to start.... \n");

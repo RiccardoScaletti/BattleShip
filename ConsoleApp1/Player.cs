@@ -26,10 +26,10 @@ namespace Battleship
         {
             if (ai)
             {
+                int currentShipType = 0;
                 while (nShipsPlaced < 5)
                 {
-                    int value = rand.Next(0,5);
-                    ShipType aiShiptype = (ShipType)value;
+                    ShipType aiShiptype = (ShipType)currentShipType;
                     Ship aiShip = new Ship(aiShiptype);
 
                     int aiShipx = rand.Next(0, 10);
@@ -45,12 +45,13 @@ namespace Battleship
                         dir = Directions.Horizontal;
                     }
 
-                    grid.PlaceShip(aiShip, aiShipx, aiShipy, dir);
+                    grid.PlaceShip(aiShip, aiShipx, aiShipy, dir, true);
 
                     if (grid.shipPlaced)
                     {
                         nShipsPlaced++;
-                        Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
+                        currentShipType++;
+                        //Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
                     }
                     
                 }
@@ -102,7 +103,7 @@ namespace Battleship
                     }
 
                     Ship playerShip = new Ship(currentShipType);
-                    grid.PlaceShip(playerShip, inputRowInt, inputColInt, dirP);
+                    grid.PlaceShip(playerShip, inputRowInt, inputColInt, dirP, false);
                     if (grid.shipPlaced)
                     {
                         Int32.TryParse(playerShipTypeInput, out int value);
@@ -139,18 +140,22 @@ namespace Battleship
             bool hasShot = false;
             if (ai) 
             {
-                int x = rand.Next(0, 10);
-                int y = rand.Next(0, 10);
+                int row = rand.Next(0, 10);
+                int col = rand.Next(0, 10);
                 Ship enemyShip = enemyGrid.Ships[0];
 
-                if (enemyGrid.board[x][y] == '~')
+                if (enemyGrid.board[row][col] == '~')
                 {
-                    enemyGrid.board[x][y] = 'O';
+                    enemyGrid.board[row][col] = 'O';
+                    hasShot = true;
+                }
+                else if (enemyGrid.board[row][col] == 'O')
+                {
                     hasShot = true;
                 }
                 else
                 {
-                    enemyGrid.board[x][y] = 'X';
+                    enemyGrid.board[row][col] = 'X';
                     enemyShip.hits++;
                     hasShot = true;
                 }
