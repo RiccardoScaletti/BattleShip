@@ -15,15 +15,28 @@ namespace Battleship
         static int inputYInt;
         static string? inputShipDirection;
         static Random random = new Random();
+        static bool enterPressed = false;
 
         static int shots = 0;
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Press any key to start.... \n");
-            Console.ReadKey();
-            Console.WriteLine("\n");
+            while (!enterPressed)
+            {
+                Console.WriteLine("Press Enter to start.... \n");
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if (keyInfo.Key != ConsoleKey.Enter)
+                {
+                    Console.WriteLine("Error, press enter!");
+                }
+                else
+                {
+                    enterPressed = true;
+                }
+                Console.WriteLine("\n");
+            }
 
+            //setup
             Grid aiGrid = new Grid();
             Grid playerGrid = new Grid();
             Player player = new Player(playerGrid);
@@ -54,11 +67,11 @@ namespace Battleship
                 Console.Clear();
                 Console.WriteLine("\tAI's Board:");
                 aiGrid.DisplayBoard(false);
-                ai.AddShip(aiGrid, true);
+                ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
 
                 Console.WriteLine("\tPlayer Board:");
                 playerGrid.DisplayBoard(false);
-                ai.AddShip(playerGrid, false);
+                player.AddShip(playerGrid, false);
 
                 //attack management
                 player.Attack(aiGrid, false);
@@ -67,7 +80,6 @@ namespace Battleship
                 {
                     break;
                 }
-
                 ai.Attack(playerGrid, true);
                 ai.shotsFired++;
                 if (playerGrid.CheckWin())

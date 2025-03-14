@@ -17,7 +17,6 @@ namespace Battleship
         
         public char[][] board;
         public List<Ship> Ships;
-        
         public bool shipPlaced = false;
 
         public Grid()
@@ -85,7 +84,10 @@ namespace Battleship
 
         public void PlaceShip(Ship ship, int x, int y, Directions dir)
         {
+            shipPlaced = false;
             List<(int, int)> tempCoordinates = new List<(int, int)>();
+            bool stop = false;
+
             while (!shipPlaced) 
             {
                 if ((dir == Directions.Vertical && x + ship.Length > 10) || (dir == Directions.Horizontal && y + ship.Length > 10))
@@ -96,12 +98,17 @@ namespace Battleship
 
                 for (int i = 0; i < ship.Length; i++)
                 {
+                    if (!BoundsCheck(x) || !BoundsCheck(y))
+                    {
+                        stop = true;
+                        return;
+                    }
                     if (board[x][y] == 'S')
                     {
                         Console.WriteLine("Ship overlaps with another ship.\n");
+                        stop = true;
                         return;
                     }
-
                     tempCoordinates.Add((x, y));
 
                     if (dir == Directions.Vertical)
@@ -113,13 +120,17 @@ namespace Battleship
                         y++;
                     }
                 }
-                foreach (var coord in tempCoordinates)
+                if (!stop)
                 {
-                    board[coord.Item1][coord.Item2] = 'S';
+                    foreach (var coord in tempCoordinates)
+                    {
+                        board[coord.Item1][coord.Item2] = 'S';
+                    }
+
+                    ship.ShipPosition.AddRange(tempCoordinates);
+                    Ships.Add(ship);
+                    shipPlaced = true;
                 }
-                ship.ShipPosition.AddRange(tempCoordinates);
-                Ships.Add(ship);
-                shipPlaced = true;
             }
         }
 
@@ -130,6 +141,19 @@ namespace Battleship
                 if (!ship.IsSunk()) return false;
             }
             return true;
+        }
+
+        static public bool BoundsCheck(int coordinate)
+        {
+            if ((coordinate < 0) || (coordinate > 10))
+            {
+                Console.WriteLine("Coordinate out of bounds, try again: \n");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
