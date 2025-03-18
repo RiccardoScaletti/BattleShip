@@ -7,17 +7,11 @@ namespace Battleship
     {
         static bool aiOn = true;
         static bool stop = false;
-        static string? playerModeInput;
+        static string? playerMenuInput;
+        static int playerMenuInputInt;
 
-        static string? inputX;
-        static int inputXInt;
-        static string? inputY;
-        static int inputYInt;
-        static string? inputShipDirection;
         static Random random = new Random();
         static bool enterPressed = false;
-
-        static int shots = 0;
 
         static void Main(string[] args)
         {
@@ -37,71 +31,160 @@ namespace Battleship
                 Console.WriteLine("\n");
             }
 
-            //setup
-            Grid aiGrid = new Grid();
-            Grid playerGrid = new Grid();
-            Player player = new Player(playerGrid);
-            Player ai = new Player(aiGrid);
-
-            //do
-            //{
-            //    Console.WriteLine("do You want to play against AI or Player? \n A = Ai, P = player");
-            //    playerModeInput = Console.ReadLine();
-            //    if (playerModeInput == "A")
-            //    {
-            //        aiOn = true;
-            //        stop = true;
-            //    }
-            //    else if (playerModeInput == "P")
-            //    {
-            //        aiOn = false;
-            //        stop = true;
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Wrong input, try again...\n");
-            //    }
-            //}while(!stop);
-
-            while (true)
+            do
             {
+                Console.WriteLine("MAIN MENU: \n 0 = Play against CPU \n 1 = Play against player \n 2 = Options Menu");
+                playerMenuInput = Console.ReadLine();
+                bool isValid = Int32.TryParse(playerMenuInput, out playerMenuInputInt);
+
+                if (!isValid)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    continue;
+                }
+                else
+                {
+                    switch (playerMenuInputInt)
+                    {
+                        case 0:
+                            //setup
+                            aiOn = true;
+                            stop = true;
+                            break;
+                        case 1:
+                            //setup 
+                            aiOn = false;
+                            stop = true;
+                            break;
+                        case 2:
+                            Console.WriteLine("options....");
+                            break;
+                        default:
+                            Console.WriteLine("Wrong input, try again...\n");
+                            break;
+                    }
+                }    
+            } while (!stop);
+
+            if (aiOn)
+            {
+
+                Grid aiGrid = new Grid();
+                Grid playerGrid = new Grid();
+                Player player = new Player(playerGrid);
+                Player ai = new Player(aiGrid);
+
+                while (true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\tAI's Board:");
+                    aiGrid.DisplayBoard(true);
+                    ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
+
+                    Console.WriteLine("\tPlayer Board:");
+                    playerGrid.DisplayBoard(false);
+                    player.AddShip(playerGrid, false);
+
+                    //attack management
+                    player.Attack(aiGrid, false);
+                    player.shotsFired++;
+                    if (aiGrid.CheckWin())
+                    {
+                        break;
+                    }
+                    ai.Attack(playerGrid, true);
+                    ai.shotsFired++;
+                    if (playerGrid.CheckWin())
+                    {
+                        break;
+                    }
+                }
+
+                //Endgame diplay
                 Console.Clear();
                 Console.WriteLine("\tAI's Board:");
                 aiGrid.DisplayBoard(false);
-                ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
 
                 Console.WriteLine("\tPlayer Board:");
                 playerGrid.DisplayBoard(false);
-                player.AddShip(playerGrid, false);
-
-                //attack management
-                player.Attack(aiGrid, false);
-                player.shotsFired++;
                 if (aiGrid.CheckWin())
                 {
-                    break;
+                    Console.WriteLine("You win in " + player.shotsFired + " shots!");
                 }
-                ai.Attack(playerGrid, true);
-                ai.shotsFired++;
                 if (playerGrid.CheckWin())
                 {
-                    break;
+                    Console.WriteLine("AI wins in " + ai.shotsFired + " shots!");
                 }
             }
-            //Endgame diplay
-            Console.Clear();
-            Console.WriteLine("\tAI's Board:");
-            aiGrid.DisplayBoard(false);
+            else 
+            {
+                Grid playerGrid = new Grid();
+                Grid player2Grid = new Grid();
+                Player player = new Player(playerGrid);
+                Player player2 = new Player(player2Grid);
+                bool turn = false;
 
-            Console.WriteLine("\tPlayer Board:");
-            playerGrid.DisplayBoard(false);
-            if (aiGrid.CheckWin())
-            {
-                Console.WriteLine("You win in " + player.shotsFired + " shots!");
+                while (true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\tPlayer 1 Board:");
+                    playerGrid.DisplayBoard(false);
+                    player.AddShip(playerGrid, false); //player.AddShip --> grid.PlaceShip --> ship()
+
+                    Console.WriteLine("\tPlayer 2 Board:");
+                    player2Grid.DisplayBoard(false);
+                    player2.AddShip(playerGrid, false);
+
+                    //attack management
+                    turn = PlayersTurnManager(turn);
+                    if (turn)
+                    {
+                        Console.WriteLine("\nP1 turn!");
+                        player.Attack(player2Grid, false);
+                        player.shotsFired++;
+                        if (playerGrid.CheckWin())
+                        {
+                            break;
+                        }
+                    }
+                    else 
+                    {
+                        Console.WriteLine("\nP2 turn!");
+                        player2.Attack(playerGrid, false);
+                        player2.shotsFired++;
+                        if (playerGrid.CheckWin())
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                //Endgame diplay
+                Console.Clear();
+                Console.WriteLine("\tPlayer 1 Board:");
+                playerGrid.DisplayBoard(true);
+
+                Console.WriteLine("\tPlayer 2 Board:");
+                player2Grid.DisplayBoard(true);
+                if (playerGrid.CheckWin())
+                {
+                    Console.WriteLine("P1 wins in " + player.shotsFired + " shots!");
+                }
+                if (player2Grid.CheckWin())
+                {
+                    Console.WriteLine("P2 wins in " + player2.shotsFired + " shots!");
+                }
             }
-            if (playerGrid.CheckWin())
+        }
+        static bool PlayersTurnManager(bool turn)
+        {
+            if (turn) 
             {
-                Console.WriteLine("AI wins in " + ai.shotsFired + " shots!");
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

@@ -82,15 +82,17 @@ namespace Battleship
             }
         }
 
-        public void PlaceShip(Ship ship, int x, int y, Directions dir, bool ai)
+        public void PlaceShip(Ship ship, string rowStr, int col, Directions dir, bool ai)
         {
             shipPlaced = false;
             List<(int, int)> tempCoordinates = new List<(int, int)>();
             bool stop = false;
 
+            int row = Player.LetterToRow(rowStr); //converts the row into the index
+
             while (!shipPlaced)
             {
-                if ((dir == Directions.Vertical && x + ship.Length > 10) || (dir == Directions.Horizontal && y + ship.Length > 10))
+                if ((dir == Directions.Vertical && row + ship.Length > 10) || (dir == Directions.Horizontal && col + ship.Length > 10))
                 {
                     if (!ai)
                     {
@@ -101,13 +103,13 @@ namespace Battleship
 
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    if (!BoundsCheck(x) || !BoundsCheck(y))
+                    if (!BoundsCheck(row) || !BoundsCheck(col))
                     {
                         stop = true;
                         return;
                     }
 
-                    if (board[x][y] == 'S')
+                    if (board[row][col] == 'S')
                     {
                         if (!ai)
                         {
@@ -117,15 +119,15 @@ namespace Battleship
                         return;
                     }
 
-                    tempCoordinates.Add((x, y));
+                    tempCoordinates.Add((row, col));
 
                     if (dir == Directions.Vertical)
                     {
-                        x++;
+                        row++;
                     }
                     else if (dir == Directions.Horizontal)
                     {
-                        y++;
+                        col++;
                     }
                 }
                 if (!stop)
@@ -153,7 +155,7 @@ namespace Battleship
 
         static public bool BoundsCheck(int coordinate)
         {
-            if ((coordinate < 0) || (coordinate > 10))
+            if ((coordinate < 0) || (coordinate > 9))
             {
                 Console.WriteLine("Coordinate out of bounds, try again: \n");
                 return false;

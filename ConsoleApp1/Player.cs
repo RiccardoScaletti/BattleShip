@@ -32,8 +32,13 @@ namespace Battleship
                     ShipType aiShiptype = (ShipType)currentShipType;
                     Ship aiShip = new Ship(aiShiptype);
 
-                    int aiShipx = rand.Next(0, 10);
-                    int aiShipy = rand.Next(0, 10);
+                    //row will be passed as a string to place the ship
+                    char randomLetter = (char)('A' + rand.Next(0, 10));
+                    string aiShipRow = randomLetter.ToString();
+                    
+                    //row is gonna be directly an Int
+                    int aiShipCol = rand.Next(0, 10);
+
                     Directions dir;
                     int rndDir = rand.Next(0, 2);
                     if (rndDir == 0)
@@ -45,7 +50,7 @@ namespace Battleship
                         dir = Directions.Horizontal;
                     }
 
-                    grid.PlaceShip(aiShip, aiShipx, aiShipy, dir, true);
+                    grid.PlaceShip(aiShip, aiShipRow, aiShipCol, dir, true);
 
                     if (grid.shipPlaced)
                     {
@@ -58,18 +63,34 @@ namespace Battleship
             }
             else 
             {
+                ShipType playerShiptype;
+
                 while (nShipsPlaced < 1)
                 {
-                    Console.WriteLine("Let's place ships!\n");
+                    Console.WriteLine("\nLet's place ship n: " + (nShipsPlaced + 1));
+
                     Console.WriteLine("What type of ship?\n 0 = Carrier, 1 = Battleship, 2 = Cruiser, 3 = Submarine, 4 = Destroyer");
-                    string playerShipTypeInput = Console.ReadLine();
+                    string? playerShipTypeInput = Console.ReadLine();
+                    bool isValid = Int32.TryParse(playerShipTypeInput, out int playerShipTypeInt);
+                    if (!isValid || playerShipTypeInt < 0 || playerShipTypeInt > 4)
+                    {
+                        Console.WriteLine("Wrong ship input, try again:");
+                        continue;
+                    }
+                    else 
+                    {
+                       playerShiptype = (ShipType)playerShipTypeInt;
+                    }
+
+                    if ((CheckShipPlaced(playerShipTypeInt))) //if ship is already placed...
+                    {
+                        continue;
+                    }
 
                     Console.WriteLine("insert row");
                     string? inputRow = Console.ReadLine();
-                    int inputRowInt;
-                    int.TryParse(inputRow, out inputRowInt);
-                   
-                    if (!Grid.BoundsCheck(inputRowInt))
+                    int row = LetterToRow(inputRow);
+                    if (row == -1)
                     {
                         continue;
                     }
@@ -77,8 +98,8 @@ namespace Battleship
                     Console.WriteLine("insert column");
                     string? inputCol = Console.ReadLine();
                     int inputColInt;
-                    int.TryParse(inputCol, out inputColInt);
-                    if (!Grid.BoundsCheck(inputColInt))
+                    isValid = int.TryParse(inputCol, out inputColInt);
+                    if (!isValid || !Grid.BoundsCheck(inputColInt))
                     {
                         continue;
                     }
@@ -102,34 +123,12 @@ namespace Battleship
                         continue;
                     }
 
-                    Ship playerShip = new Ship(currentShipType);
-                    grid.PlaceShip(playerShip, inputRowInt, inputColInt, dirP, false);
+                    Ship playerShip = new Ship(playerShiptype);
+                    grid.PlaceShip(playerShip, inputRow, inputColInt, dirP, false);
                     if (grid.shipPlaced)
-                    {
-                        Int32.TryParse(playerShipTypeInput, out int value);
-                        switch (value)
-                        {
-                            default:
-                                Console.WriteLine("Error while assigning ship type");
-                                currentShipType = ShipType.None;
-                                break;
-                            case 0:
-                                if (CheckShipPlaced(value)) { continue; }
-                                break;
-                            case 1:
-                                if (CheckShipPlaced(value)) { continue; }
-                                break;
-                            case 2:
-                                if (CheckShipPlaced(value)) { continue; }
-                                break;
-                            case 3:
-                                if (CheckShipPlaced(value)) { continue; }
-                                break;
-                            case 4:
-                                if (CheckShipPlaced(value)) { continue; }
-                                break;
-                        }
+                    {                     
                         nShipsPlaced++;
+                        shipCheck[playerShipTypeInt] = true; 
                     }
                 }
             }
@@ -138,70 +137,84 @@ namespace Battleship
         public void Attack(Grid enemyGrid, bool ai)
         {
             bool hasShot = false;
+            
             if (ai) 
             {
-                int row = rand.Next(0, 10);
-                int col = rand.Next(0, 10);
-                Ship enemyShip = enemyGrid.Ships[0];
+                while (!hasShot)
+                {
+                    int row = rand.Next(0, 10);
+                    int col = rand.Next(0, 10);
+                    Ship enemyShip = enemyGrid.Ships[0];
 
-                if (enemyGrid.board[row][col] == '~')
-                {
-                    enemyGrid.board[row][col] = 'O';
-                    hasShot = true;
-                }
-                else if (enemyGrid.board[row][col] == 'O')
-                {
-                    hasShot = true;
-                }
-                else
-                {
-                    enemyGrid.board[row][col] = 'X';
-                    enemyShip.hits++;
-                    hasShot = true;
-                }
+                    if (enemyGrid.board[row][col] == '~')
+                    {
+                        enemyGrid.board[row][col] = 'O';
+                        hasShot = true;
+                    }
+                    else if (enemyGrid.board[row][col] == 'S')
+                    {
+                        enemyGrid.board[row][col] = 'X';
+                        enemyShip.hits++;
+                        hasShot = true;
+                    }
+                    else 
+                    {
+                        //Already shot
+                        hasShot = false;
+                    }
+                }   
             }
-            while (!hasShot) 
+            else
             {
-                string? inputTargetX;
-                string? inputTargetY;
-                int row;
-                int col;
+                while (!hasShot)
+                {
+                    string? inputTargetRow;
+                    string? inputTargetCol;
+                    int row;
+                    int col;
 
-                Console.WriteLine("Time to attack!\n");
-                Console.WriteLine("insert row");
-                inputTargetX = Console.ReadLine();
-                int.TryParse(inputTargetX, out row);
-                if (!Grid.BoundsCheck(row))
-                {
-                    continue;
-                }
+                    Console.WriteLine("\nTime to attack!");
+                    Console.WriteLine("insert row");
+                    inputTargetRow = Console.ReadLine();
+                    row = LetterToRow(inputTargetRow);
+                    if (row == -1)
+                    {
+                        continue;
+                    }
 
-                Console.WriteLine("insert column");
-                inputTargetY = Console.ReadLine();
-                int.TryParse(inputTargetY, out col);
-                if (!Grid.BoundsCheck(col))
-                {
-                    continue;
-                }
+                    Console.WriteLine("insert column");
+                    inputTargetCol = Console.ReadLine();
+                    bool isValid = int.TryParse(inputTargetCol, out col);
+                    if (!isValid)
+                    {
+                        Console.WriteLine("Input is a letter, try again...");
+                        continue;
+                    }
+                    else if (!Grid.BoundsCheck(col))
+                    {
+                        continue;
+                    }
 
-                Ship enemyShip = enemyGrid.Ships[0];
+                    Ship enemyShip = enemyGrid.Ships[0];
 
-                if (enemyGrid.board[row][col] == '~')
-                {
-                    enemyGrid.board[row][col] = 'O';
-                    hasShot = true;
+                    if (enemyGrid.board[row][col] == '~')
+                    {
+                        enemyGrid.board[row][col] = 'O';
+                        hasShot = true;
+                    }
+                    else if (enemyGrid.board[row][col] == 'S')
+                    {
+                        enemyGrid.board[row][col] = 'X';
+                        enemyShip.hits++;
+                        hasShot = true;
+                    }
+                    else 
+                    {
+                        Console.WriteLine("Already shot in that postion, try again:");
+                        hasShot = false;
+                    }
                 }
-                else if (enemyGrid.board[row][col] == 'O')
-                {
-                    hasShot = true;
-                }
-                else
-                {
-                    enemyGrid.board[row][col] = 'X';
-                    enemyShip.hits++;
-                    hasShot = true;
-                }
-            }
+            } 
         }
 
         private bool CheckShipPlaced(int value)
@@ -210,7 +223,6 @@ namespace Battleship
             currentShipType = playerShiptype;
             if (!shipCheck[value])
             {
-                shipCheck[value] = true; //this ship is now placed
                 return false;//return that ship was not placed yet
             }
             else
@@ -218,7 +230,21 @@ namespace Battleship
                 Console.WriteLine("ship already placed!");
                 return true;
             }
-            
+        }
+
+        public static int LetterToRow(string letter)
+        {
+            char rowLetter = char.ToUpper(letter[0]);
+
+            // A = 65 --> 65-65 = 0. B = 66...
+            int rowIndex = rowLetter - 'A';
+
+            if (!Grid.BoundsCheck(rowIndex))
+            {
+                return -1;
+            }
+
+            return rowIndex;
         }
     }
 }
