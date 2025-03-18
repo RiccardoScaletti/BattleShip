@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Runtime.InteropServices.JavaScript;
+﻿
 
 namespace Battleship
 {
@@ -47,12 +46,12 @@ namespace Battleship
                     switch (playerMenuInputInt)
                     {
                         case 0:
-                            //setup
+                            //setup pve
                             aiOn = true;
                             stop = true;
                             break;
                         case 1:
-                            //setup 
+                            //setup pvp
                             aiOn = false;
                             stop = true;
                             break;
@@ -77,14 +76,19 @@ namespace Battleship
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("\tAI's Board:");
+                    Console.WriteLine("    --AI's Board--");
                     aiGrid.DisplayBoard(true);
                     ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
 
-                    Console.WriteLine("\tPlayer Board:");
-                    playerGrid.DisplayBoard(false);
-                    player.AddShip(playerGrid, false);
-
+                    Console.WriteLine("    --Player Board--");
+                    while (player.nShipsPlaced < 5)
+                    {
+                        Console.WriteLine("    !Open Player Board!");
+                        playerGrid.DisplayBoard(false);
+                        player.AddShip(playerGrid, false);
+                    }
+                    playerGrid.DisplayBoard(true);
+                    
                     //attack management
                     player.Attack(aiGrid, false);
                     player.shotsFired++;
@@ -102,10 +106,10 @@ namespace Battleship
 
                 //Endgame diplay
                 Console.Clear();
-                Console.WriteLine("\tAI's Board:");
+                Console.WriteLine("    --AI's Board--");
                 aiGrid.DisplayBoard(false);
 
-                Console.WriteLine("\tPlayer Board:");
+                Console.WriteLine("    --Player Board--");
                 playerGrid.DisplayBoard(false);
                 if (aiGrid.CheckWin())
                 {
@@ -123,33 +127,50 @@ namespace Battleship
                 Player player = new Player(playerGrid);
                 Player player2 = new Player(player2Grid);
                 bool turn = false;
+                bool playersReady = false;
 
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("\tPlayer 1 Board:");
-                    playerGrid.DisplayBoard(false);
-                    player.AddShip(playerGrid, false); //player.AddShip --> grid.PlaceShip --> ship()
 
-                    Console.WriteLine("\tPlayer 2 Board:");
-                    player2Grid.DisplayBoard(false);
-                    player2.AddShip(playerGrid, false);
+                    //Boards management
+                    //P1
+                    Console.WriteLine("    --Player 1 Board:--");
+                    while (player.nShipsPlaced < 5)
+                    {
+                        playerGrid.DisplayBoard(false);
+                        player.AddShip(playerGrid, false); //player.AddShip --> grid.PlaceShip --> ship()
+                    }
+                    if (playersReady) 
+                    {
+                        playerGrid.DisplayBoard(true);
+                    }
+                    
+                    //P2
+                    Console.WriteLine("    --Player 2 Board:--");
+                    while (player2.nShipsPlaced < 5)
+                    {
+                        player2Grid.DisplayBoard(false);
+                        player2.AddShip(player2Grid, false);
+                    }
+                    playersReady = true;
+                    player2Grid.DisplayBoard(true);
 
-                    //attack management
+                    //Attack management
                     turn = PlayersTurnManager(turn);
                     if (turn)
                     {
-                        Console.WriteLine("\nP1 turn!");
+                        Console.WriteLine("    --P1 turn!-");
                         player.Attack(player2Grid, false);
                         player.shotsFired++;
-                        if (playerGrid.CheckWin())
+                        if (player2Grid.CheckWin())
                         {
                             break;
                         }
                     }
                     else 
                     {
-                        Console.WriteLine("\nP2 turn!");
+                        Console.WriteLine("    --P2 turn!--");
                         player2.Attack(playerGrid, false);
                         player2.shotsFired++;
                         if (playerGrid.CheckWin())
@@ -159,7 +180,7 @@ namespace Battleship
                     }
                 }
 
-                //Endgame diplay
+                //Endgame diplay & conditions
                 Console.Clear();
                 Console.WriteLine("\tPlayer 1 Board:");
                 playerGrid.DisplayBoard(true);
