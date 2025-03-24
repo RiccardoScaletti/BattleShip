@@ -19,6 +19,8 @@ namespace Battleship
         public List<Ship> Ships;
         public bool shipPlaced = false;
         public static int nOfShipToPlace = 5;
+        public int hitsTaken = 0;
+        public static int totalLenght = 0; //i'm using a combination of hitsTaken and TotalLenght to determine the win conditions. Instead of checking which ship is hit and how, i'm summing up the amount of lives the player has and if that is met, the game is over.
 
         public Grid()
         {
@@ -151,11 +153,23 @@ namespace Battleship
 
         public bool CheckWin()
         {
-            foreach (var ship in Ships)
+
+            if (hitsTaken >= totalLenght)
             {
-                if (!ship.IsSunk()) return false;
+                return true;
             }
-            return true;
+
+            return false;
+        }
+
+        public int GetTotalLenght()
+        {
+            totalLenght = 0; 
+            foreach (Ship ship in Ships)
+            {
+                totalLenght += ship.Length;
+            }
+            return totalLenght;
         }
 
         static public bool BoundsCheck(int coordinate)

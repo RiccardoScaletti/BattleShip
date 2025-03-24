@@ -45,10 +45,5 @@ namespace Battleship
             ShipPosition = new List<(int, int)>();
             hits = 0;   
         }
-
-        public bool IsSunk()
-        {
-            return hits >= Length;
-        }
     }
 }

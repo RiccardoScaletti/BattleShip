@@ -10,7 +10,6 @@ namespace Battleship
         private bool[] shipCheck = new bool[Grid.nOfShipToPlace];
         private ShipType currentShipType;
         public int nShipsPlaced = 0;
-
         public int shotsFired = 0;
 
         public Player(Grid grid)
@@ -131,7 +130,7 @@ namespace Battleship
                 else
                 {
                     Console.WriteLine("Only Patrol Boats!");
-                    playerShiptype = (ShipType)4;
+                    playerShiptype = ShipType.PatrolBoat;
                 }
 
                 Console.WriteLine("insert row");
@@ -157,7 +156,7 @@ namespace Battleship
                 }
 
                 Console.WriteLine("insert direction: V or H?");
-                string? inputShipDirection = Console.ReadLine();
+                string? inputShipDirection = Console.ReadLine().ToUpper();
                 Directions dir;
 
                 if (inputShipDirection.Trim() == "V")
@@ -198,7 +197,6 @@ namespace Battleship
                 {
                     int row = rand.Next(0, 10);
                     int col = rand.Next(0, 10);
-                    Ship enemyShip = enemyGrid.Ships[0];
 
                     if (enemyGrid.board[row][col] == '~')
                     {
@@ -208,7 +206,7 @@ namespace Battleship
                     else if (enemyGrid.board[row][col] == 'S')
                     {
                         enemyGrid.board[row][col] = 'X';
-                        enemyShip.hits++;
+                        enemyGrid.hitsTaken++;
                         hasShot = true;
                     }
                     else
@@ -230,6 +228,7 @@ namespace Battleship
                     Console.WriteLine("\nTime to attack!");
                     Console.WriteLine("insert row");
                     inputTargetRow = Console.ReadLine();
+                    //bool isValid = Int32.TryParse(inputTargetRow, out row);
                     row = LetterToRow(inputTargetRow);
                     if (row == -1)
                     {
@@ -249,8 +248,6 @@ namespace Battleship
                         continue;
                     }
 
-                    Ship enemyShip = enemyGrid.Ships[0];
-
                     if (enemyGrid.board[row][col] == '~')
                     {
                         enemyGrid.board[row][col] = 'O';
@@ -259,7 +256,7 @@ namespace Battleship
                     else if (enemyGrid.board[row][col] == 'S')
                     {
                         enemyGrid.board[row][col] = 'X';
-                        enemyShip.hits++;
+                        enemyGrid.hitsTaken++;
                         hasShot = true;
                     }
                     else
@@ -299,5 +296,7 @@ namespace Battleship
 
             return rowIndex;
         }
+
+        
     }
 }

@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|e:\\cose\\gamedev\\battleship\\consoleapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|e:\\cose\\gamedev\\battleship\\consoleapp1\\grid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|solutionrelative:grid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|e:\\cose\\gamedev\\battleship\\consoleapp1\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|solutionrelative:player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|e:\\cose\\gamedev\\battleship\\consoleapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BF1EDDB2-4649-42FD-9BFA-C37E2CE8738B}|BattleshipScaletti.csproj|e:\\cose\\gamedev\\battleship\\consoleapp1\\ship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,17 +26,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Player.cs",
               "DocumentMoniker": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Player.cs",
               "RelativeDocumentMoniker": "Player.cs",
               "ToolTip": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Player.cs",
               "RelativeToolTip": "Player.cs",
-              "ViewState": "AgIAAKIAAAAAAAAAAAD4v7MAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAYAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T04:37:21.553Z",
               "EditorCaption": ""
@@ -49,33 +49,33 @@
               "RelativeDocumentMoniker": "Ship.cs",
               "ToolTip": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Ship.cs",
               "RelativeToolTip": "Ship.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwC4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T04:37:11.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Grid.cs",
               "DocumentMoniker": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Grid.cs",
               "RelativeDocumentMoniker": "Grid.cs",
               "ToolTip": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Grid.cs",
               "RelativeToolTip": "Grid.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAawHwAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T04:18:36.693Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "E:\\Cose\\GameDev\\BattleShip\\ConsoleApp1\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIBAABOAAAAAAAAAA==",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAgwHAAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T01:59:56.015Z",
               "EditorCaption": ""

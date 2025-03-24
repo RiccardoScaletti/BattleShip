@@ -39,6 +39,7 @@ namespace Battleship
 
                 do
                 {
+                    Console.Clear();
                     Console.WriteLine("MAIN MENU: \n 0 = Quit Game\n 1 = Play against CPU \n 2 = Play against player \n 3 = Options Menu");
                     playerMenuInput = Console.ReadLine();
                     bool isValid = Int32.TryParse(playerMenuInput, out playerMenuInputInt);
@@ -108,7 +109,8 @@ namespace Battleship
                         Console.Clear();
                         Console.WriteLine("    --AI's Board--");
                         aiGrid.DisplayBoard(true);
-                        ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
+                        ai.AddShip(aiGrid, true); 
+                        //adding ships pipeline: player.AddShip --> grid.PlaceShip --> ship()
 
                         Console.WriteLine("    --Player Board--");
                         while (player.nShipsPlaced < Grid.nOfShipToPlace)
@@ -184,6 +186,7 @@ namespace Battleship
                             player2Grid.DisplayBoard(false);
                             player2.AddShip(player2Grid, false);
                         }
+                        
                         playersReady = true;
                         player2Grid.DisplayBoard(true);
 
