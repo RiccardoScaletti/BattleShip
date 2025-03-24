@@ -12,11 +12,15 @@ namespace Battleship
         static bool enterPressed = false;
         static bool resetInputIsValid = false;
         static bool reset = true;
+        public static bool stackShipsOption { get; private set; }
+        public static bool onlyPatrolsOption { get; private set; }
 
         static void Main(string[] args)
         {
             Console.WriteLine("   ___    _  ____________  ___  ___  _ _______ \r\n  / o.) .' \\/_  _/_  _/ / / _/,' _/ /// / / o |\r\n / o \\ / o / / /  / // /_/ _/_\\ `. / ` / / _,' \r\n/___,'/_n_/ /_/  /_//___/___/___,'/_n_/_/_/    ");
-            while (reset) 
+            stackShipsOption = false;
+            onlyPatrolsOption = false;
+            while (reset)
             {
                 while (!enterPressed)
                 {
@@ -35,7 +39,7 @@ namespace Battleship
 
                 do
                 {
-                    Console.WriteLine("MAIN MENU: \n 0 = Play against CPU \n 1 = Play against player \n 2 = Options Menu");
+                    Console.WriteLine("MAIN MENU: \n 0 = Quit Game\n 1 = Play against CPU \n 2 = Play against player \n 3 = Options Menu");
                     playerMenuInput = Console.ReadLine();
                     bool isValid = Int32.TryParse(playerMenuInput, out playerMenuInputInt);
 
@@ -46,20 +50,43 @@ namespace Battleship
                     }
                     else
                     {
+                        Console.Clear();
                         switch (playerMenuInputInt)
                         {
                             case 0:
+                                return;
+                            case 1:
                                 //setup pve
                                 aiOn = true;
                                 stop = true;
                                 break;
-                            case 1:
+                            case 2:
                                 //setup pvp
                                 aiOn = false;
                                 stop = true;
                                 break;
-                            case 2:
-                                Console.WriteLine("options....");
+                            case 3:
+                                Console.WriteLine("Custom rules menu!");
+                                ShowOptions();
+                                Console.WriteLine("What do you want to change?\n 0 = exit menu, 1 = Stacking Ships, 2 = Patrol Boats Only");
+                                string? optionMenuInput = Console.ReadLine();
+                                int optionMenuInputInt = Int32.Parse(optionMenuInput);
+                                switch (optionMenuInputInt)
+                                {
+                                    default:
+                                        Console.WriteLine("Error, wrong input");
+                                        break;
+                                    case 0:
+                                        break;
+                                    case 1:
+                                        stackShipsOption = true;
+                                        ShowOptions();
+                                        break;
+                                    case 2:
+                                        onlyPatrolsOption = true;
+                                        ShowOptions();
+                                        break;
+                                }
                                 break;
                             default:
                                 Console.WriteLine("Wrong input, try again...\n");
@@ -68,7 +95,7 @@ namespace Battleship
                     }
                 } while (!stop);
 
-                if (aiOn)
+                if (aiOn) //PVE case
                 {
 
                     Grid aiGrid = new Grid();
@@ -84,7 +111,7 @@ namespace Battleship
                         ai.AddShip(aiGrid, true); //player.AddShip --> grid.PlaceShip --> ship()
 
                         Console.WriteLine("    --Player Board--");
-                        while (player.nShipsPlaced < 5)
+                        while (player.nShipsPlaced < Grid.nOfShipToPlace)
                         {
                             Console.WriteLine("    !Player ships!");
                             playerGrid.DisplayBoard(false);
@@ -118,13 +145,13 @@ namespace Battleship
                     {
                         Console.WriteLine("You win in " + player.shotsFired + " shots!");
                     }
-                    if (playerGrid.CheckWin())
+                    else if (playerGrid.CheckWin())
                     {
                         Console.WriteLine("AI wins in " + ai.shotsFired + " shots!");
                     }
                     CheckReset();
                 }
-                else
+                else //PVP case
                 {
                     Grid playerGrid = new Grid();
                     Grid player2Grid = new Grid();
@@ -140,7 +167,7 @@ namespace Battleship
                         //Boards management
                         //P1
                         Console.WriteLine("    --Player 1 Board:--");
-                        while (player.nShipsPlaced < 5)
+                        while (player.nShipsPlaced < Grid.nOfShipToPlace)
                         {
                             playerGrid.DisplayBoard(false);
                             player.AddShip(playerGrid, false); //player.AddShip --> grid.PlaceShip --> ship()
@@ -152,7 +179,7 @@ namespace Battleship
 
                         //P2
                         Console.WriteLine("    --Player 2 Board:--");
-                        while (player2.nShipsPlaced < 5)
+                        while (player2.nShipsPlaced < Grid.nOfShipToPlace)
                         {
                             player2Grid.DisplayBoard(false);
                             player2.AddShip(player2Grid, false);
@@ -193,20 +220,20 @@ namespace Battleship
                     player2Grid.DisplayBoard(true);
                     if (playerGrid.CheckWin())
                     {
-                        Console.WriteLine("P1 wins in " + player.shotsFired + " shots!");
+                        Console.WriteLine("P2 wins in " + player.shotsFired + " shots!");
                     }
-                    if (player2Grid.CheckWin())
+                    else if (player2Grid.CheckWin())
                     {
-                        Console.WriteLine("P2 wins in " + player2.shotsFired + " shots!");
+                        Console.WriteLine("P1 wins in " + player2.shotsFired + " shots!");
                     }
                     CheckReset();
                 }
             }
-           
+
         }
         static bool PlayersTurnManager(bool turn)
         {
-            if (turn) 
+            if (turn)
             {
                 return false;
             }
@@ -229,7 +256,7 @@ namespace Battleship
                     resetInputIsValid = true;
                     reset = true;
                 }
-                else if(resetInputInt == 1)
+                else if (resetInputInt == 1)
                 {
                     resetInputIsValid = true;
                     reset = false;
@@ -237,10 +264,15 @@ namespace Battleship
                 else
                 {
                     Console.WriteLine("Wrong input, try again");
-                    resetInputIsValid = false;
                 }
                 Console.WriteLine("\n");
             }
+        }
+
+        static void ShowOptions()
+        {
+            Console.WriteLine("Stacking ships = " + stackShipsOption);
+            Console.WriteLine("Patrol Boats only = " + onlyPatrolsOption + "\n");
         }
     }
 }

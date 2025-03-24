@@ -7,185 +7,112 @@ namespace Battleship
     internal class Player
     {
         private Random rand;
-        private bool[] shipCheck = new bool[5];
+        private bool[] shipCheck = new bool[Grid.nOfShipToPlace];
         private ShipType currentShipType;
         public int nShipsPlaced = 0;
 
         public int shotsFired = 0;
-        
+
         public Player(Grid grid)
         {
             rand = new Random();
-            for (int i = 0; i < shipCheck.Length; i++) 
+            for (int i = 0; i < shipCheck.Length; i++)
             {
                 shipCheck[i] = false;
             }
         }
-
-        //public void AddShip(Grid grid, bool ai)
-        //{
-        //    if (ai)
-        //    {
-        //        int currentShipType = 0;
-        //        while (nShipsPlaced < 5)
-        //        {
-        //            ShipType aiShiptype = (ShipType)currentShipType;
-        //            Ship aiShip = new Ship(aiShiptype);
-
-        //            //row will be passed as a string to place the ship
-        //            char randomLetter = (char)('A' + rand.Next(0, 10));
-        //            string aiShipRow = randomLetter.ToString();
-
-        //            //row is gonna be directly an Int
-        //            int aiShipCol = rand.Next(0, 10);
-
-        //            Directions dir;
-        //            int rndDir = rand.Next(0, 2);
-        //            if (rndDir == 0)
-        //            {
-        //                dir = Directions.Vertical;
-        //            }
-        //            else
-        //            {
-        //                dir = Directions.Horizontal;
-        //            }
-
-        //            grid.PlaceShip(aiShip, aiShipRow, aiShipCol, dir, true);
-
-        //            if (grid.shipPlaced)
-        //            {
-        //                nShipsPlaced++;
-        //                currentShipType++;
-        //                //Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
-        //            }
-
-        //        }
-        //    }
-        //    else 
-        //    {
-        //        ShipType playerShiptype;
-
-        //        while (nShipsPlaced < 2)
-        //        {
-        //            Console.WriteLine("\nLet's place ship n: " + (nShipsPlaced + 1));
-
-        //            Console.WriteLine("What type of ship?\n 0 = Carrier, 1 = Battleship, 2 = Cruiser, 3 = Submarine, 4 = Destroyer");
-        //            string? playerShipTypeInput = Console.ReadLine();
-        //            bool isValid = Int32.TryParse(playerShipTypeInput, out int playerShipTypeInt);
-        //            if (!isValid || playerShipTypeInt < 0 || playerShipTypeInt > 4)
-        //            {
-        //                Console.WriteLine("Wrong ship input, try again:");
-        //                continue;
-        //            }
-        //            else 
-        //            {
-        //               playerShiptype = (ShipType)playerShipTypeInt;
-        //            }
-
-        //            if ((CheckShipPlaced(playerShipTypeInt))) //if ship is already placed...
-        //            {
-        //                continue;
-        //            }
-
-        //            Console.WriteLine("insert row");
-        //            string? inputRow = Console.ReadLine();
-        //            int row = LetterToRow(inputRow);
-        //            if (row == -1)
-        //            {
-        //                continue;
-        //            }
-
-        //            Console.WriteLine("insert column");
-        //            string? inputCol = Console.ReadLine();
-        //            int inputColInt;
-        //            isValid = int.TryParse(inputCol, out inputColInt);
-        //            if (!isValid)
-        //            {
-        //                Console.WriteLine("Input is not a number, try again...");
-        //                continue;
-        //            }
-        //            else if (!Grid.BoundsCheck(inputColInt))
-        //            {
-        //                continue;
-        //            }
-
-        //            Console.WriteLine("insert direction: V or H?");
-        //            string? inputShipDirection = Console.ReadLine();
-        //            Directions dirP;
-
-        //            if (inputShipDirection.Trim() == "V")
-        //            {
-        //                dirP = Directions.Vertical;
-        //            }
-        //            else if (inputShipDirection.Trim() == "H")
-        //            {
-        //                dirP = Directions.Horizontal;
-        //            }
-        //            else
-        //            {
-        //                dirP = Directions.None;
-        //                Console.WriteLine("Error, wrong input for direction.\n");
-        //                continue;
-        //            }
-
-        //            Ship playerShip = new Ship(playerShiptype);
-        //            grid.PlaceShip(playerShip, inputRow, inputColInt, dirP, false);
-        //            if (grid.shipPlaced)
-        //            {                     
-        //                nShipsPlaced++;
-        //                shipCheck[playerShipTypeInt] = true; //ship is successfully placed
-        //            }
-        //        }
-        //    }
-        //}
         public void AddShip(Grid grid, bool ai)
         {
             if (ai)
             {
-                int currentShipType = 0;
-                while (nShipsPlaced < 5)
+                if (!Program.onlyPatrolsOption)
                 {
-                    ShipType aiShiptype = (ShipType)currentShipType;
-                    Ship aiShip = new Ship(aiShiptype);
-
-                    //row will be passed as a string to place the ship
-                    char randomLetter = (char)('A' + rand.Next(0, 10));
-                    string aiShipRow = randomLetter.ToString();
-
-                    //row is gonna be directly an Int
-                    int aiShipCol = rand.Next(0, 10);
-
-                    Directions dir;
-                    int rndDir = rand.Next(0, 2);
-                    if (rndDir == 0)
+                    int currentShipType = 0;
+                    while (nShipsPlaced < Grid.nOfShipToPlace)
                     {
-                        dir = Directions.Vertical;
-                    }
-                    else
-                    {
-                        dir = Directions.Horizontal;
-                    }
+                        ShipType aiShiptype = (ShipType)currentShipType;
+                        Ship aiShip = new Ship(aiShiptype);
 
-                    grid.PlaceShip(aiShip, aiShipRow, aiShipCol, dir, true);
+                        //row will be passed as a string to place the ship
+                        char randomLetter = (char)('A' + rand.Next(0, 10));
+                        string aiShipRow = randomLetter.ToString();
 
-                    if (grid.shipPlaced)
-                    {
-                        nShipsPlaced++;
-                        currentShipType++;
-                        //Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
+                        //row is gonna be directly an Int
+                        int aiShipCol = rand.Next(0, 10);
+
+                        Directions dir;
+                        int rndDir = rand.Next(0, 2);
+                        if (rndDir == 0)
+                        {
+                            dir = Directions.Vertical;
+                        }
+                        else
+                        {
+                            dir = Directions.Horizontal;
+                        }
+
+                        grid.PlaceShip(aiShip, aiShipRow, aiShipCol, dir, true);
+
+                        if (grid.shipPlaced)
+                        {
+                            nShipsPlaced++;
+                            currentShipType++;
+                            //Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
+                        }
+
                     }
-
                 }
+                else
+                {
+                    int currentShipType = 4;
+                    while (nShipsPlaced < Grid.nOfShipToPlace)
+                    {
+                        ShipType aiShiptype = (ShipType)currentShipType;
+                        Ship aiShip = new Ship(aiShiptype);
+
+                        //row will be passed as a string to place the ship
+                        char randomLetter = (char)('A' + rand.Next(0, 10));
+                        string aiShipRow = randomLetter.ToString();
+
+                        //row is gonna be directly an Int
+                        int aiShipCol = rand.Next(0, 10);
+
+                        Directions dir;
+                        int rndDir = rand.Next(0, 2);
+                        if (rndDir == 0)
+                        {
+                            dir = Directions.Vertical;
+                        }
+                        else
+                        {
+                            dir = Directions.Horizontal;
+                        }
+
+                        grid.PlaceShip(aiShip, aiShipRow, aiShipCol, dir, true);
+
+                        if (grid.shipPlaced)
+                        {
+                            nShipsPlaced++;
+                            //Console.WriteLine("ai ship at " + aiShipx + aiShipy + " direction: " + dir);
+                        }
+
+                    }
+                }
+                
             }
-            else
+            else //if it's a player
             {
                 ShipType playerShiptype;
-
-                    Console.WriteLine("\nLet's place ship n: " + (nShipsPlaced + 1));
-
-                    Console.WriteLine("What type of ship?\n 0 = Carrier, 1 = Battleship, 2 = Cruiser, 3 = Submarine, 4 = Destroyer");
-                    string? playerShipTypeInput = Console.ReadLine();
-                    bool isValid = Int32.TryParse(playerShipTypeInput, out int playerShipTypeInt);
+                Console.WriteLine("\nLet's place ship n: " + (nShipsPlaced + 1));
+                string? playerShipTypeInput;
+                int playerShipTypeInt = 4;
+                bool isValid;
+                if (!Program.onlyPatrolsOption)
+                {
+                    Console.WriteLine("What type of ship?\n 0 = Carrier (5 tiles), 1 = Battleship (4 tiles), 2 = Destroyer (3 tiles), 3 = Submarine (3 tiles), 4 = Patrol Boat(2 tiles)");
+                    playerShipTypeInput = Console.ReadLine();
+                    isValid = Int32.TryParse(playerShipTypeInput, out int tempInt);
+                    playerShipTypeInt = tempInt;
                     if (!isValid || playerShipTypeInt < 0 || playerShipTypeInt > 4)
                     {
                         Console.WriteLine("Wrong ship input, try again:");
@@ -196,66 +123,76 @@ namespace Battleship
                         playerShiptype = (ShipType)playerShipTypeInt;
                     }
 
-                    if ((CheckShipPlaced(playerShipTypeInt))) //if ship is already placed...
+                    if ((CheckShipPlaced(playerShiptype))) //if ship is already placed...
                     {
                         return;
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Only Patrol Boats!");
+                    playerShiptype = (ShipType)4;
+                }
 
-                    Console.WriteLine("insert row");
-                    string? inputRow = Console.ReadLine();
-                    int row = LetterToRow(inputRow);
-                    if (row == -1)
-                    {
-                        return;
-                    }
+                Console.WriteLine("insert row");
+                string? inputRow = Console.ReadLine();
+                int row = LetterToRow(inputRow);
+                if (row == -1)
+                {
+                    return;
+                }
 
-                    Console.WriteLine("insert column");
-                    string? inputCol = Console.ReadLine();
-                    int inputColInt;
-                    isValid = int.TryParse(inputCol, out inputColInt);
-                    if (!isValid)
-                    {
-                        Console.WriteLine("Input is not a number, try again...");
-                        return;
-                    }
-                    else if (!Grid.BoundsCheck(inputColInt))
-                    {
-                        return;
-                    }
+                Console.WriteLine("insert column");
+                string? inputCol = Console.ReadLine();
+                int inputColInt;
+                isValid = int.TryParse(inputCol, out inputColInt);
+                if (!isValid)
+                {
+                    Console.WriteLine("Input is not a number, try again...");
+                    return;
+                }
+                else if (!Grid.BoundsCheck(inputColInt))
+                {
+                    return;
+                }
 
-                    Console.WriteLine("insert direction: V or H?");
-                    string? inputShipDirection = Console.ReadLine();
-                    Directions dir;
+                Console.WriteLine("insert direction: V or H?");
+                string? inputShipDirection = Console.ReadLine();
+                Directions dir;
 
-                    if (inputShipDirection.Trim() == "V")
-                    {
-                        dir = Directions.Vertical;
-                    }
-                    else if (inputShipDirection.Trim() == "H")
-                    {
-                        dir = Directions.Horizontal;
-                    }
-                    else
-                    {
-                        dir = Directions.None;
-                        Console.WriteLine("Error, wrong input for direction.\n");
-                        return;
-                    }
+                if (inputShipDirection.Trim() == "V")
+                {
+                    dir = Directions.Vertical;
+                }
+                else if (inputShipDirection.Trim() == "H")
+                {
+                    dir = Directions.Horizontal;
+                }
+                else
+                {
+                    dir = Directions.None;
+                    Console.WriteLine("Error, wrong input for direction.\n");
+                    return;
+                }
 
-                    Ship playerShip = new Ship(playerShiptype);
-                    grid.PlaceShip(playerShip, inputRow, inputColInt, dir, false);
-                    if (grid.shipPlaced)
+                Ship playerShip = new Ship(playerShiptype);
+                grid.PlaceShip(playerShip, inputRow, inputColInt, dir, false);
+                if (grid.shipPlaced)
+                {
+                    nShipsPlaced++;
+                    if (!Program.onlyPatrolsOption)
                     {
-                        nShipsPlaced++;
                         shipCheck[playerShipTypeInt] = true; //ship is successfully placed
                     }
+                    Console.Clear();
+                }
             }
         }
         public void Attack(Grid enemyGrid, bool ai)
         {
             bool hasShot = false;
-            
-            if (ai) 
+
+            if (ai)
             {
                 while (!hasShot)
                 {
@@ -274,12 +211,12 @@ namespace Battleship
                         enemyShip.hits++;
                         hasShot = true;
                     }
-                    else 
+                    else
                     {
                         //Already shot
                         hasShot = false;
                     }
-                }   
+                }
             }
             else
             {
@@ -325,19 +262,18 @@ namespace Battleship
                         enemyShip.hits++;
                         hasShot = true;
                     }
-                    else 
+                    else
                     {
                         Console.WriteLine("Already shot in that postion, try again:");
                         hasShot = false;
                     }
                 }
-            } 
+            }
         }
 
-        private bool CheckShipPlaced(int value)
+        private bool CheckShipPlaced(ShipType type)
         {
-            ShipType playerShiptype = (ShipType)value;
-            currentShipType = playerShiptype;
+            int value = (int)type;
             if (!shipCheck[value])
             {
                 return false;//return that ship was not placed yet

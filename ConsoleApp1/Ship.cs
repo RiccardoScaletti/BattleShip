@@ -8,12 +8,11 @@ namespace Battleship
        
         Carrier, 
         Battleship, 
-        Cruiser, 
+        Destroyer, 
         Submarine, 
-        Destroyer,
+        PatrolBoat,
         None
     }
-    //Carrier(occupies 5 spaces), Battleship(4), Cruiser(3), Submarine(3), and Destroyer(2)
     internal class Ship
     {
         public int Length;
@@ -30,13 +29,13 @@ namespace Battleship
                 case ShipType.Battleship:
                     Length = 4;
                     break;
-                case ShipType.Cruiser:
+                case ShipType.Destroyer:
                     Length = 3;
                     break;
                 case ShipType.Submarine:
                     Length = 3;
                     break;
-                case ShipType.Destroyer:
+                case ShipType.PatrolBoat:
                     Length = 2;
                     break;
                 default:

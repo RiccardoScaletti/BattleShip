@@ -18,6 +18,7 @@ namespace Battleship
         public char[][] board;
         public List<Ship> Ships;
         public bool shipPlaced = false;
+        public static int nOfShipToPlace = 5;
 
         public Grid()
         {
@@ -69,10 +70,10 @@ namespace Battleship
                             Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case 'X':
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             break;
                         case 'O':
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             break;
                     }
                     Console.Write(displayChar + " ");
@@ -109,14 +110,18 @@ namespace Battleship
                         return;
                     }
 
-                    if (board[row][col] == 'S')
+                    if (!Program.stackShipsOption)
                     {
-                        if (!ai)
+                        if (board[row][col] == 'S')
                         {
-                            Console.WriteLine("Ship overlaps with another ship.\n");
+                            if (!ai)
+                            {
+                                Console.WriteLine("Ship overlaps with another ship.\n");
+                            }
+                            stop = true;
+                            return;
                         }
-                        stop = true;
-                        return;
+
                     }
 
                     tempCoordinates.Add((row, col));
