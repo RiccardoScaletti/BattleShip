@@ -154,7 +154,7 @@ namespace Battleship
         public bool CheckWin()
         {
 
-            if (hitsTaken >= totalLenght)
+            if (hitsTaken >= GetTotalLenght())
             {
                 return true;
             }

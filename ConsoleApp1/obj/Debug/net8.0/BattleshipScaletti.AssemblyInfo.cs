@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BattleshipScaletti")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e01ae5c52d93138bb646281f44375400cf9642ee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08a2dea47dd4cb2cfee50b28731e4a9531fb5b35")]
 [assembly: System.Reflection.AssemblyProductAttribute("BattleshipScaletti")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BattleshipScaletti")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
